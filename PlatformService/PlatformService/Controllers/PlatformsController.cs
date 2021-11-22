@@ -23,7 +23,7 @@ namespace PlatformService.Controllers
         public IActionResult GetPlatformById(int id) =>
             _mapper.Map<PlatformReadDTO>(_platformRepo.GetPlatformById(id)) == null ? NotFound()
             : Ok(_mapper.Map<PlatformReadDTO>(_platformRepo.GetPlatformById(id)));
-        
+
 
         [HttpGet]
         public IActionResult GetPlatforms() =>
@@ -36,7 +36,7 @@ namespace PlatformService.Controllers
             _platformRepo.CreatePlatform(platform);
             _platformRepo.SaveChanges();
             var platformRead = _mapper.Map<PlatformReadDTO>(platform);
-            return CreatedAtRoute(nameof(GetPlatformById), new {Id = platformRead.Id }, platformRead);
+            return CreatedAtRoute(nameof(GetPlatformById), new { Id = platformRead.Id }, platformRead);
         }
 
     }
