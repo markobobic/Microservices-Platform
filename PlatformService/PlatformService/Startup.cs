@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using PlatformService.DataContext;
 using PlatformService.Repositories;
 using PlatformService.Repositories.Interfaces;
+using System;
 
 namespace PlatformService
 {
@@ -25,6 +26,7 @@ namespace PlatformService
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemory"));
             services.AddScoped<IPlatformRepo,PlatformRepo>();
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PlatformService", Version = "v1" });
