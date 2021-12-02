@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using PlatformService.DataContext;
 using PlatformService.Repositories;
 using PlatformService.Repositories.Interfaces;
+using PlatformService.SyncDataServices.Http;
+using PlatformService.SyncDataServices.Http.Interfaces;
 using System;
 
 namespace PlatformService
@@ -25,6 +27,7 @@ namespace PlatformService
         {
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemory"));
             services.AddScoped<IPlatformRepo,PlatformRepo>();
+            services.AddHttpClient<ICommandDataClient, CommandDataClient>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
