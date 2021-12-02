@@ -27,7 +27,7 @@ namespace PlatformService.SyncDataServices.Http
             var httpContent = new StringContent(JsonSerializer.Serialize(platformReadDTO),
                                             Encoding.UTF8,
                                             "application/json");
-            var response = await _httpClient.PostAsync(@"http://localhost:6000/api/c/platforms/",httpContent);
+            var response = await _httpClient.PostAsync(_configuration["CommandServiceAPI"], httpContent);
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("--> Sync post to command service was okay!");
