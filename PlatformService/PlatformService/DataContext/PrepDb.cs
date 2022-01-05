@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using PlatformService.Models;
 using System;
 using System.Collections.Generic;
@@ -30,7 +28,7 @@ namespace PlatformService.DataContext
                 catch (Exception ex)
                 {
 
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("MIGRATE ERROR:"  + ex.Message);
                 }
             }
             if (!context.Platforms.Any())
