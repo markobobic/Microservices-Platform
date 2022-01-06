@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using PlatformService.Consts;
 using PlatformService.DTOs;
 using RabbitMQ.Client;
 using System;
@@ -10,9 +11,6 @@ namespace PlatformService.AsyncDataServices
 {
     public class MessageBusClient : IMessageBusClient, IDisposable
     {
-        private const string _exchange = "trigger";
-        private const string _rabbitMQHost = "RabbitMQHost";
-        private const string _rabbitMQPort = "RabbitMQPort";
         private readonly IConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
@@ -22,14 +20,14 @@ namespace PlatformService.AsyncDataServices
             _config = config;
             var factory = new ConnectionFactory()
             {
-                HostName = _config[_rabbitMQHost],
-                Port = int.Parse(_config[_rabbitMQPort])
+                HostName = _config[RabbitMQConf.RabbitMQHost],
+                Port = int.Parse(_config[RabbitMQConf.RabbitMQPort])
             };
             try
             {
                 _connection = factory.CreateConnection();
                 _channel = _connection.CreateModel();
-                _channel.ExchangeDeclare(_exchange, ExchangeType.Fanout);
+                _channel.ExchangeDeclare(RabbitMQConf.Exchange, ExchangeType.Fanout);
                 _connection.ConnectionShutdown += RabbitMQConnectionShutDown;
                 Console.WriteLine("---> Connected to message bus.");
             }
@@ -60,7 +58,7 @@ namespace PlatformService.AsyncDataServices
             var body = Encoding.UTF8.GetBytes(message);
             await Task.Run(() =>
             {
-                _channel.BasicPublish(_exchange, "", null, body);
+                _channel.BasicPublish(RabbitMQConf.Exchange, "", null, body);
             });
         }
 
