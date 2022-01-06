@@ -16,14 +16,14 @@ namespace CommandService.Repository
 
         public async Task CreateCommandAsync(int platformId, Command command)
         {
-            if (command == null) await Task.CompletedTask;
+            if (command == null) return;
             command.PlatformId = platformId;
             await _context.Commands.AddAsync(command);
         }
 
         public async Task CreatePlatformAsync(Platform platform)
         {
-            if (platform == null) await Task.CompletedTask;
+            if (platform == null) return;
             await _context.AddAsync(platform);
         }
 

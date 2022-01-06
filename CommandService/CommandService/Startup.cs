@@ -1,3 +1,4 @@
+using CommandService.AsyncDataServices;
 using CommandService.Data;
 using CommandService.EventsProcessing;
 using CommandService.Repository;
@@ -25,6 +26,7 @@ namespace CommandService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHostedService<MessageBusSubscriber>();
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemory"));
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddScoped<ICommandRepo, CommandRepo>();

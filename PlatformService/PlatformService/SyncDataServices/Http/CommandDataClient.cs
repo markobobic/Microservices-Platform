@@ -31,7 +31,7 @@ namespace PlatformService.SyncDataServices.Http
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("--> Sync post to command service was okay!");
-                await Task.CompletedTask;
+                return;
 
             }
             Console.WriteLine("--> Sync post was not okay!");
