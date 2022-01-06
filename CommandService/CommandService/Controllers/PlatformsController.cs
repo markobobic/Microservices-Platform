@@ -23,7 +23,7 @@ namespace CommandService.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetPlatforms() => 
-            Ok(_mapper.Map<IEnumerable<Platform>>(await _repo.GetAllPlatforms()));
+            Ok(_mapper.Map<IEnumerable<Platform>>(await _repo.GetAllPlatformsAsync()));
 
         [HttpPost]
         public IActionResult Test123()

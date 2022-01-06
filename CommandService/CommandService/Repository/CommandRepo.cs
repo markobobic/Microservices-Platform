@@ -14,27 +14,27 @@ namespace CommandService.Repository
             _context = context;
         }
 
-        public async Task CreateCommand(int platformId, Command command)
+        public async Task CreateCommandAsync(int platformId, Command command)
         {
             if (command == null) await Task.CompletedTask;
             command.PlatformId = platformId;
             await _context.Commands.AddAsync(command);
         }
 
-        public async Task CreatePlatform(Platform platform)
+        public async Task CreatePlatformAsync(Platform platform)
         {
             if (platform == null) await Task.CompletedTask;
             await _context.AddAsync(platform);
         }
 
-        public async Task<IEnumerable<Platform>> GetAllPlatforms() => 
+        public async Task<IEnumerable<Platform>> GetAllPlatformsAsync() => 
             await _context.Platforms.ToListAsync();
 
-        public async Task<Command> GetCommand(int platformId, int commandId) => 
+        public async Task<Command> GetCommandAsync(int platformId, int commandId) => 
             await _context.Commands.SingleOrDefaultAsync(x => x.Id == commandId
             && x.PlatformId == platformId);
 
-        public async Task<IEnumerable<Command>> GetCommandsForPlatform(int platformId)
+        public async Task<IEnumerable<Command>> GetCommandsForPlatformAsync(int platformId)
         {
             var platform = await _context.Platforms
                 .SingleOrDefaultAsync(x => x.Id == platformId);
@@ -42,7 +42,7 @@ namespace CommandService.Repository
             return platform.Commands;
         }
 
-        public async Task<bool> PlatformExists(int platformId)
+        public async Task<bool> PlatformExistsAsync(int platformId)
         {
             return await _context.Platforms.AnyAsync(x => x.Id == platformId);
         }

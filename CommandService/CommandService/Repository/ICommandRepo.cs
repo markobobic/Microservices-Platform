@@ -7,9 +7,9 @@ namespace CommandService.Repository
     public interface ICommandRepo : IPlatformRepo
     {
         Task<bool> SaveChangesAsync();
-        Task<IEnumerable<Command>> GetCommandsForPlatform(int platformId);
-        Task<Command> GetCommand(int platformId, int commandId);
-        Task CreateCommand(int platformId, Command command);
+        Task<IEnumerable<Command>> GetCommandsForPlatformAsync(int platformId);
+        Task<Command> GetCommandAsync(int platformId, int commandId);
+        Task CreateCommandAsync(int platformId, Command command);
 
     }
 }

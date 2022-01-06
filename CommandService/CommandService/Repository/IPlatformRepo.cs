@@ -6,8 +6,8 @@ namespace CommandService.Repository
 {
     public interface IPlatformRepo
     {
-        Task<IEnumerable<Platform>> GetAllPlatforms();
-        Task CreatePlatform(Platform platform);
-        Task<bool> PlatformExists(int platformId);
+        Task<IEnumerable<Platform>> GetAllPlatformsAsync();
+        Task CreatePlatformAsync(Platform platform);
+        Task<bool> PlatformExistsAsync(int platformId);
     }
 }
