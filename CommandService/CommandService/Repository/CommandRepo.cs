@@ -40,7 +40,7 @@ namespace CommandService.Repository
 
         public async Task<IEnumerable<Command>> GetCommandsForPlatformAsync(int platformId)
         {
-            var platform = await _context.Platforms
+            var platform = await _context.Platforms.Include(x => x.Commands)
                 .SingleOrDefaultAsync(x => x.Id == platformId);
             if(platform == null) return new List<Command>();
             return platform.Commands;
