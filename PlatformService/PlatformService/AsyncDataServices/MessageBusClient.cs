@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PlatformService.AsyncDataServices
 {
-    public class MessageBusClient : IMessageBusClient
+    public class MessageBusClient : IMessageBusClient, IDisposable
     {
         private const string _exchange = "trigger";
         private const string _rabbitMQHost = "RabbitMQHost";
