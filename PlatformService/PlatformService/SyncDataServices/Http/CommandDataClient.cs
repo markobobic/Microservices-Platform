@@ -22,7 +22,7 @@ namespace PlatformService.SyncDataServices.Http
         }
 
 
-        public async Task SendPlatformToCommand(PlatformReadDTO platformReadDTO)
+        public async Task SendPlatformToCommandAsync(PlatformReadDTO platformReadDTO)
         {
             var httpContent = new StringContent(JsonSerializer.Serialize(platformReadDTO),
                                             Encoding.UTF8,

@@ -28,25 +28,25 @@ namespace PlatformService.Controllers
         }
 
         [HttpGet("{id}", Name = "GetPlatformById")]
-        public IActionResult GetPlatformById(int id) =>
-            _mapper.Map<PlatformReadDTO>(_platformRepo.GetPlatformById(id)) == null ? NotFound()
-            : Ok(_mapper.Map<PlatformReadDTO>(_platformRepo.GetPlatformById(id)));
+        public async Task<IActionResult> GetPlatformById(int id) =>
+            _mapper.Map<PlatformReadDTO>(await _platformRepo.GetPlatformByIdAsync(id)) == null ? NotFound()
+            : Ok(_mapper.Map<PlatformReadDTO>(await _platformRepo.GetPlatformByIdAsync(id)));
 
 
         [HttpGet]
-        public IActionResult GetPlatforms() =>
-            Ok(_mapper.Map<IEnumerable<PlatformReadDTO>>(_platformRepo.GetAllPlatforms()));
+        public async Task<IActionResult> GetPlatforms() =>
+            Ok(_mapper.Map<IEnumerable<PlatformReadDTO>>(await _platformRepo.GetAllPlatformsAsync()));
 
         [HttpPost("createPlatform")]
         public async Task<IActionResult> CreatePlatform(PlatformCreateDTO platformDto)
         {
             var platform = _mapper.Map<Platform>(platformDto);
-            _platformRepo.CreatePlatform(platform);
-            _platformRepo.SaveChanges();
+            await _platformRepo.CreatePlatformAsync(platform);
+            await _platformRepo.SaveChangesAsync();
             var platformRead = _mapper.Map<PlatformReadDTO>(platform);
             try
             {
-                await _commandDataClient.SendPlatformToCommand(platformRead);
+                await _commandDataClient.SendPlatformToCommandAsync(platformRead);
             }
             catch (Exception e)
             {

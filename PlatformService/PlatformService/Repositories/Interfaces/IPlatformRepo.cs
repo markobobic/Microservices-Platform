@@ -1,14 +1,15 @@
 ﻿using PlatformService.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PlatformService.Repositories.Interfaces
 {
     public interface IPlatformRepo
     {
-        bool SaveChanges();
-        IEnumerable<Platform> GetAllPlatforms();
-        Platform GetPlatformById(int id);
-        void CreatePlatform(Platform platform);
+        Task<bool> SaveChangesAsync();
+        Task<IEnumerable<Platform>> GetAllPlatformsAsync();
+        Task<Platform> GetPlatformByIdAsync(int id);
+        Task CreatePlatformAsync(Platform platform);
         
     }
 }

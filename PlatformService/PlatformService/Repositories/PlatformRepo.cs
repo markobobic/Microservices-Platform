@@ -1,9 +1,11 @@
-﻿using PlatformService.DataContext;
+﻿using Microsoft.EntityFrameworkCore;
+using PlatformService.DataContext;
 using PlatformService.Models;
 using PlatformService.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PlatformService.Repositories
 {
@@ -14,10 +16,10 @@ namespace PlatformService.Repositories
         {
             _db = db;
         }
-        public void CreatePlatform(Platform platform) => _db.Platforms?.Add(platform ?? throw new ArgumentException());
-        public IEnumerable<Platform> GetAllPlatforms() => _db.Platforms?.ToList();
-        public Platform GetPlatformById(int id) => _db.Platforms?.SingleOrDefault(x => x.Id == id);
-        public bool SaveChanges() => _db?.SaveChanges() >= 0;
+        public async Task CreatePlatformAsync(Platform platform) => await _db.Platforms.AddAsync(platform);
+        public async Task<IEnumerable<Platform>> GetAllPlatformsAsync() => await _db.Platforms?.ToListAsync();
+        public async Task<Platform> GetPlatformByIdAsync(int id) => await _db.Platforms?.SingleOrDefaultAsync(x => x.Id == id);
+        public async Task<bool> SaveChangesAsync() => await _db?.SaveChangesAsync() >= 0;
 
     }
 }
