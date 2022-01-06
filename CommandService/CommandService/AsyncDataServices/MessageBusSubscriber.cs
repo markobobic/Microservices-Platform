@@ -24,7 +24,7 @@ namespace CommandService.AsyncDataServices
         {
             _config = config;
             _eventProcessor = eventProcessor;
-            Task.Run(async () => await InitializeRabbitMQ());
+            InitializeRabbitMQ();
         }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -40,10 +40,9 @@ namespace CommandService.AsyncDataServices
             return Task.CompletedTask;
         }
 
-        private async Task InitializeRabbitMQ()
+        private void InitializeRabbitMQ()
         {
-            await Task.Run(() =>
-            {
+           
                 var factory = new ConnectionFactory()
                 {
                     HostName = _config[RabbitMQConf.RabbitMQHost],
@@ -63,7 +62,6 @@ namespace CommandService.AsyncDataServices
 
                     Debug.WriteLine($"--->Could not connect to the message bus: {ex.InnerException}");
                 }
-            });
             
         }
         private void RabbitMQConnectionShutDown(object sender, ShutdownEventArgs e) =>

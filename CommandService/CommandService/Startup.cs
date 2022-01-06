@@ -26,10 +26,10 @@ namespace CommandService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddHostedService<MessageBusSubscriber>();
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemory"));
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddScoped<ICommandRepo, CommandRepo>();
+            services.AddHostedService<MessageBusSubscriber>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {

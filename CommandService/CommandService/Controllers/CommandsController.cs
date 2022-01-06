@@ -38,13 +38,15 @@ namespace CommandService.Controllers
         public async Task<IActionResult> CreateCommand(int platformId, CommandCreateDTO commandDTO)
         {
             if (!await _repo.PlatformExistsAsync(platformId)) return NotFound();
+            
+            var command = _mapper.Map<Command>(commandDTO);
 
-            await _repo.CreateCommandAsync(platformId, _mapper.Map<Command>(commandDTO));
+            await _repo.CreateCommandAsync(platformId, command);
             await _repo.SaveChangesAsync();
-            var commandReadDto = _mapper.Map<CommandReadDTO>(_mapper.Map<Command>(commandDTO));
+            var commandReadDto = _mapper.Map<CommandReadDTO>(command);
 
             return CreatedAtRoute(nameof(GetCommandForPlatform),
-                new { platformId, commandId = commandReadDto.Id }, commandReadDto);
+                new { platformId = platformId, commandId = commandReadDto.Id }, commandReadDto);
         }
     }
 }

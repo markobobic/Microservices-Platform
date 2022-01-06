@@ -18,6 +18,7 @@ namespace CommandService.Repository
         {
             if (command == null) return;
             command.PlatformId = platformId;
+            _context.Entry<Command>(command).DetectChanges();
             await _context.Commands.AddAsync(command);
         }
 
@@ -53,6 +54,7 @@ namespace CommandService.Repository
         public async Task<bool> SaveChangesAsync()
         {
            var result = await _context.SaveChangesAsync();
+            var result1 = await _context.Commands.ToListAsync();
            return result >= 0; 
         }
     }
