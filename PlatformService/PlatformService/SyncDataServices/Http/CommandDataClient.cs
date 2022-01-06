@@ -12,13 +12,13 @@ namespace PlatformService.SyncDataServices.Http
     public class CommandDataClient : ICommandDataClient
     {
         private readonly HttpClient _httpClient;
-        public IConfiguration _configuration { get; }
+        public IConfiguration Configuration { get; }
 
 
         public CommandDataClient(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _configuration = configuration;
+            Configuration = configuration;
         }
 
 
@@ -27,7 +27,7 @@ namespace PlatformService.SyncDataServices.Http
             var httpContent = new StringContent(JsonSerializer.Serialize(platformReadDTO),
                                             Encoding.UTF8,
                                             "application/json");
-            var response = await _httpClient.PostAsync(_configuration["CommandServiceAPI"], httpContent);
+            var response = await _httpClient.PostAsync(Configuration["CommandServiceAPI"], httpContent);
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("--> Sync post to command service was okay!");

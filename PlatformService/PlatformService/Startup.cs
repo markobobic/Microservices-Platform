@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using PlatformService.AsyncDataServices;
 using PlatformService.DataContext;
 using PlatformService.Repositories;
 using PlatformService.Repositories.Interfaces;
@@ -40,6 +41,7 @@ namespace PlatformService
             {
                 services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemory"));
             }
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
             services.AddScoped<IPlatformRepo,PlatformRepo>();
             services.AddHttpClient<ICommandDataClient, CommandDataClient>();
             services.AddControllers();

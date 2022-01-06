@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PlatformService.AsyncDataServices;
 using PlatformService.DTOs;
 using PlatformService.Models;
 using PlatformService.Repositories.Interfaces;
@@ -14,17 +15,21 @@ namespace PlatformService.Controllers
     [ApiController]
     public class PlatformsController : ControllerBase
     {
+        private const string Platform_Published = "Platform_Published";
         private readonly IPlatformRepo _platformRepo;
         private readonly IMapper _mapper;
         private readonly ICommandDataClient _commandDataClient;
+        private readonly IMessageBusClient _messageBusClient;
 
         public PlatformsController(IPlatformRepo platformRepo,
                                    IMapper mapper,
-                                   ICommandDataClient commandDataClient)
+                                   ICommandDataClient commandDataClient,
+                                   IMessageBusClient messageBusClient)
         {
             _platformRepo = platformRepo;
             _mapper = mapper;
             _commandDataClient = commandDataClient;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet("{id}", Name = "GetPlatformById")]
@@ -50,9 +55,21 @@ namespace PlatformService.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Could not send sync: " + e.Message);
             }
-            return CreatedAtRoute(nameof(GetPlatformById), new { Id = platformRead.Id }, platformRead);
+            try
+            {
+                var platformPublishDTO = _mapper.Map<PlatformPublishedDTO>(platformRead);
+                platformPublishDTO.Event = Platform_Published;
+                await _messageBusClient.PublishNewPlatformAsync(platformPublishDTO);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("Could not send async: " + e.Message);
+            }
+
+            return CreatedAtRoute(nameof(GetPlatformById), new { platformRead.Id }, platformRead);
         }
 
     }
