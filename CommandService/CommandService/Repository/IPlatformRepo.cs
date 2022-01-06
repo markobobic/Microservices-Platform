@@ -9,5 +9,7 @@ namespace CommandService.Repository
         Task<IEnumerable<Platform>> GetAllPlatformsAsync();
         Task CreatePlatformAsync(Platform platform);
         Task<bool> PlatformExistsAsync(int platformId);
+        Task<bool> ExternalPlatformExistsAsync(int externalPlatformId);
+
     }
 }

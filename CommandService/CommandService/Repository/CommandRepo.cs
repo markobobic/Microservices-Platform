@@ -27,6 +27,9 @@ namespace CommandService.Repository
             await _context.AddAsync(platform);
         }
 
+        public async Task<bool> ExternalPlatformExistsAsync(int externalPlatformId) =>
+            await _context.Platforms.AnyAsync(x => x.Id == externalPlatformId);
+
         public async Task<IEnumerable<Platform>> GetAllPlatformsAsync() => 
             await _context.Platforms.ToListAsync();
 
